@@ -1,34 +1,39 @@
+# caesar_cipher.rb
 # frozen_string_literal: true
 
-puts 'Input some text:'
-string = gets.chomp
+class CaesarCipher
+  ALPHABET = ('a'..'z').to_a
 
-puts "\n"
-puts 'Input a number:'
-num = gets.to_i
-
-puts "\n"
-puts 'Here is your code:'
-def caesar_cipher(string, num)
-  lower_alphabet = ('a'..'z').to_a
-  upper_alphabet = ('A'..'Z').to_a
-  code = []
-
-  string.each_char do |char|
-    if lower_alphabet.include?(char)
-      index = lower_alphabet.index(char)
-      offset = (index + num) % 26
-      code << lower_alphabet[offset]
-    elsif upper_alphabet.include?(char)
-      index = upper_alphabet.index(char)
-      offset = (index + num) % 26
-      code << upper_alphabet[offset]
-    else
-      code << char
-    end
+  def initialize
+    @string = user_input_string
+    @number = user_input_number
+    @code = []
+    cipher
   end
 
-  code.join
+  def user_input_string
+    print 'Input: '
+    gets.chomp.downcase
+  end
+
+  def user_input_number
+    print 'Shift: '
+    gets.to_i
+  end
+
+  def cipher
+    @string.each_char do |char|
+      if ALPHABET.include?(char)
+        index = ALPHABET.index(char)
+        shift = (@number + index) % 26
+        @code << ALPHABET[shift]
+      else
+        @code << char
+      end
+    end
+
+    puts "\e[31m\n#{@code.join}\n\e[0m"
+  end
 end
 
-puts caesar_cipher(string, num)
+CaesarCipher.new
