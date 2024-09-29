@@ -1,6 +1,7 @@
 # caesar_cipher.rb
 # frozen_string_literal: true
 
+# Class creates Caesar Cipher
 class CaesarCipher
   ALPHABET = ('a'..'z').to_a
 
@@ -35,5 +36,3 @@ class CaesarCipher
     puts "\e[31m\n#{@code.join}\n\e[0m"
   end
 end
-
-CaesarCipher.new
