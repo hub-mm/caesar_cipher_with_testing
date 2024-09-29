@@ -3,4 +3,5 @@
 
 require_relative 'lib/caesar_cipher'
 
-CaesarCipher.new
+cipher = CaesarCipher.new
+cipher.display_result
