@@ -5,26 +5,33 @@
 class CaesarCipher
   ALPHABET = ('a'..'z').to_a
 
-  def initialize
-    introduction
-    @string = user_input_string
-    @number = user_input_number
-    @code = []
+  attr_reader :encrypted
+
+  def initialize(string = nil, number = nil, skip_intro: false)
+    introduction unless skip_intro
+    @string = (string || user_input_string).downcase
+    @number = number || user_input_number
     cipher
   end
 
   def cipher
-    @string.each_char do |char|
-      if ALPHABET.include?(char)
-        index = ALPHABET.index(char)
-        shift = (@number + index) % 26
-        @code << ALPHABET[shift]
-      else
-        @code << char
-      end
-    end
+    @code = []
+    translate
+    @encrypted = @code.join
+  end
 
-    puts "\e[31m\n#{@code.join}\n\e[0m"
+  def updated_string(new_string)
+    @string = new_string.downcase
+    cipher
+  end
+
+  def updated_shift(new_number)
+    @number = new_number
+    cipher
+  end
+
+  def display_result
+    puts "\e[31m\n#{@encrypted}\n\e[0m"
   end
 
   private
@@ -54,5 +61,17 @@ class CaesarCipher
   def user_input_number
     print 'Shift: '
     gets.to_i
+  end
+
+  def translate
+    @string.each_char do |char|
+      if ALPHABET.include?(char)
+        index = ALPHABET.index(char)
+        shift = (@number + index) % 26
+        @code << ALPHABET[shift]
+      else
+        @code << char
+      end
+    end
   end
 end
